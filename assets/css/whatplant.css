@@ -1,10 +1,24 @@
+#form_submitted {
+	background-color: #AAD85E;
+	width: 370px;
+	margin-top: 10px;
+	margin-left: 3px;
+	padding: 3px;
+	font-weight: bold;
+	display: none;
+}
+
+#itunes_store{
+	padding-top: 20px;
+}
+
 #app {
 	padding-top: 20px;
 	padding-bottom: 20px;
 }
 
 #technology {
-	background-color: #C3EFBA;
+	background-color: #AAD85E;
 	color: #000000;
 	padding-top: 75px;
 	padding-bottom: 75px;
