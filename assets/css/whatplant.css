@@ -1,0 +1,42 @@
+#form_submitted {
+	background-color: #AAD85E;
+	width: 370px;
+	margin-top: 10px;
+	margin-left: 3px;
+	padding: 3px;
+	font-weight: bold;
+	display: none;
+}
+
+#itunes_store{
+	padding-top: 20px;
+}
+
+#app {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+#technology {
+	background-color: #AAD85E;
+	color: #000000;
+	padding-top: 75px;
+	padding-bottom: 75px;
+	margin-top: 10px;
+}
+
+#technology div div div p {
+	font-size: 120% !important;
+}
+
+#team {
+	 margin-top: 10px; 
+}
+
+#team div {
+	margin-bottom: 10px;
+}
+
+#team div div p {
+	margin-bottom: 0px;
+}
