@@ -2,43 +2,119 @@
 <html lang="en">
 <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   ~~~ Word Count - Stewar Douglas ~~~
+  ~~~ Word Counter - Stewart Douglas ~~~
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 <head>
-	<title>Word Count</title>
+	<title>Word Counter</title>
 	<!--STYLES-->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+		<!--EXTERNAL STYLES-->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+		<!--EXTERNAL STYLES END-->
+
+		<!-- STEWART'S STYLES -->
+		<style type="text/css">
+		html, body {
+			height: 100%;
+		}
+		p {
+			margin: 0; /* Overide Bootstrap */
+		}
+		#wrap {
+			min-height: 100%;
+			height: auto !important;
+			margin: 0 auto -60px;
+		}
+		.centered {
+			text-align: center;
+		}
+		#input_text {
+			height: 100px;
+			margin-bottom: 15px;
+		}
+		#frequency_chart {
+			border: 2px solid #337ab7;
+			border-radius: 10px;
+			margin: 15px;
+			display: none;
+		}
+		.col-centered {
+			float: none;
+			margin: 0 auto;
+		}
+		.chart_row {
+			margin-bottom: 100px;
+		}
+		.footer {
+			position: relative;
+			bottom: 0;
+			width: 100%;
+			background-color: #337ab7;
+			color: #FFFFFF;
+			padding: 15px;
+		}
+		div a {
+			color: #13073A;
+		}
+		@media screen and (min-width: 1200px){
+			#frequency_chart {
+				margin-left: 80px;
+			}
+		}
+		@media screen and (min-width: 400px){
+			#frequency_chart {
+				margin-left: 0px;
+			}
+		}		
+		</style>
+		<!-- STEWART'S STYLES END-->
 	<!--STYLES END-->
 </head>
 <body>
-	<div class="container">
+	
+	<div id="wrap" class="container">
 		<!-- INPUT -->		
 		<div class="row centered">
-			<div class="col-lg-12">			
+			<div class="col-lg-8 col-centered">
+				<div class="row centered">
+					<h3>Word Counter</h3>
+				</div>			
 				<div class="row centered">
 					<!-- Provide explanation of what this tool does --> 
+					<p class="lead">
+						This tool allows you to determine the most popular words in a piece of text. 
+						Simply enter your text below and press the 'Count' button. A bar chart will display the ten 
+						common words in your text. Hover over a bar to see the exact count. 
+					<p>
 				</div>
 			</div>			
-			<div class="col-lg-12">			
+			<div class="col-lg-8 col-centered">			
 				<div class="row centered">
-					<textarea id="input_text"></textarea>
+					<textarea class="form-control" id="input_text" placeholder="Enter your text here"></textarea>
 				</div>
 				<div class="row centered">
-					<button type="button" id="count">Count</button>
+					<button type="button" class="btn btn-primary btn-lg" id="count">Count</button>
 				</div>		
 			</div>
 		</div>
 		<!-- INPUT END-->	
 
 		<!-- RESULTS -->
-		<div class="row centered">
-			<div class="col-lg-12">
+		<div class="row centered chart_row">
+			<div class="col-lg-8 col-centered">
 				<div id="frequency_chart"></div>
 			</div>
 		</div>
 		<!-- RESULTS END -->		
 	</div>
+
+   <div class="footer container">
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-3">
+                	<p>Check out more work by Stewart Douglas at <a id="github" target="_blank" href="https://github.com/StewartDouglas">GitHub</a></p>
+                </div>	
+            </div>
+    </div>  
 
 	<!--SCRIPTS-->
 		<!--EXTERNAL SCRIPTS-->
@@ -50,11 +126,15 @@
 		<!-- STEWART'S SCRIPT -->
 		<script>
 			$('#count').on('click',function(){
+				$('#frequency_chart').show();
 				var lookup_table = new Object(); // Our dictionary: word => word_count
 				var text_raw = document.getElementById('input_text').value;
-				var word_array = text_raw.split(" "); // Our array of words
+				var text_trimmed = text_raw.trim(); // Remove redundant whitespace
+				var word_array = text_trimmed.split(" "); // Our array of words
 				var array_length = word_array.length;
 				
+				//console.log(word_array);
+
 				// Place the count of each word in the Object lookup_table
 				for(var i = 0; i < array_length; ++i){
 					if(word_array[i] in lookup_table){
@@ -66,6 +146,8 @@
 					}
 				};
 
+				//console.log(lookup_table);
+
 				// Convert our dictionary into an array of arrays [ [word1, count1], [...], ... ]
 				// so it can be consumed by Google Chart Tools
 				var data_table = [];
@@ -74,25 +156,41 @@
 					data_table.push(new_element);
 				}
     			
+				// Sort the data
+				data_table.sort(function(a,b){
+					return a[1] - b[1]
+				});
+
+				console.log(data_table);
+
+				// Get the top ten most popular words in our text
+				var top_ten = data_table.slice(-10);
+
+
 			    (function drawChart() {
 
 			      var data = new google.visualization.DataTable(); // Google Chart Tools requires the data to be wrapped in this class
 			      data.addColumn('string', 'Word');
 			      data.addColumn('number', 'Count');
 
-			      data.addRows(data_table);
+			      data.addRows(top_ten);
 
 			      var options = {
-			        width: 1000,
+			        width: 800,
 			        height: 563,
+			        series: [{color: '#337ab7'}],
 			        hAxis: {
-			          title: 'Word Count',
-			          format: 'h:mm a',
+			          title: 'Words',
 			          gridlines: {count: 10}
 			        },
 			        vAxis: {
-			          title: 'Occurances'
-			        }
+			          title: 'Occurances',
+			          gridlines : {
+			          	color: 'transparent'
+			          }
+			        },
+			        legend: {position: 'none'},
+			        backgroundColor: { fill:'transparent' }
 			      };
 
 			      // Finally, render the chart
