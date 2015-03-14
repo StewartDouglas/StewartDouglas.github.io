@@ -139,13 +139,13 @@
 		<!-- STEWART'S SCRIPT -->
 		<script>
 			$('#count').on('click',function(){
-				$('#frequency_chart').show();
 				var lookup_table = new Object(); // Our dictionary: word => word_count
 				var text_raw = document.getElementById('input_text').value; // Get the input text
 				if(text_raw == ""){ alert("You have not entered any text."); return; } // Handle case when user fails to enter text
 				var text_trimmed = text_raw.trim(); // Remove redundant whitespace
 				var word_array = text_trimmed.split(" "); // Our array of words
 				var array_length = word_array.length;
+				$('#frequency_chart').show();
 
 				// Place the count of each word in the Object lookup_table
 				for(var i = 0; i < array_length; ++i){
