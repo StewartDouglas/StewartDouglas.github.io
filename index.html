@@ -55,9 +55,17 @@
 		div a {
 			color: #13073A;
 		}
+		.chart_row svg {
+			margin-top: -25px;
+		}
 		@media screen and (min-width: 1200px){
 			#frequency_chart {
 				margin-left: 80px;
+			}
+		}
+		@media screen and (max-width: 1200px){
+			.chart_row {
+				width: 800px;
 			}
 		}
 		@media screen and (min-width: 400px){
@@ -83,7 +91,7 @@
 					<p class="lead">
 						This tool allows you to determine the most popular words in a piece of text. 
 						Simply enter your text below and press the 'Count' button. A bar chart will display the ten 
-						common words in your text. Hover over a bar to see the exact count. 
+						most common words in your text. Hover over a bar to see the exact count. 
 					<p>
 				</div>
 			</div>			
