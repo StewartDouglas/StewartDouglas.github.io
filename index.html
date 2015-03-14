@@ -22,7 +22,6 @@
 		}
 		#wrap {
 			min-height: 100%;
-			height: auto !important;
 			margin: 0 auto -60px;
 		}
 		.centered {
@@ -132,21 +131,18 @@
 				var text_trimmed = text_raw.trim(); // Remove redundant whitespace
 				var word_array = text_trimmed.split(" "); // Our array of words
 				var array_length = word_array.length;
-				
-				//console.log(word_array);
 
 				// Place the count of each word in the Object lookup_table
 				for(var i = 0; i < array_length; ++i){
-					if(word_array[i] in lookup_table){
+					var clean_string = word_array[i].replace(/(^[\(\"\']+|[\,\.!?\)\'\"]+$)/g,''); // remove any leading or trailing punctuation
+					if(clean_string in lookup_table){
 					// if the word is already in our dictionary, increment it's value by one
-						lookup_table[word_array[i]] += 1; 
+						lookup_table[clean_string] += 1; 
 					} else {
 					// if the word is not in our dictionary, add it with an initial value of one
-						lookup_table[word_array[i]] = 1;
+						lookup_table[clean_string] = 1;
 					}
 				};
-
-				//console.log(lookup_table);
 
 				// Convert our dictionary into an array of arrays [ [word1, count1], [...], ... ]
 				// so it can be consumed by Google Chart Tools
@@ -161,11 +157,8 @@
 					return a[1] - b[1]
 				});
 
-				console.log(data_table);
-
 				// Get the top ten most popular words in our text
 				var top_ten = data_table.slice(-10);
-
 
 			    (function drawChart() {
 
