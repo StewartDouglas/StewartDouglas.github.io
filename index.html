@@ -41,7 +41,11 @@
 			float: none;
 			margin: 0 auto;
 		}
+		.text_row {
+			margin: 0 auto;			
+		}
 		.chart_row {
+			margin: 0 auto;			
 			margin-bottom: 100px;
 		}
 		.footer {
@@ -64,7 +68,7 @@
 			}
 		}
 		@media screen and (max-width: 1200px){
-			.chart_row {
+			.text_row, .chart_row {
 				width: 800px;
 			}
 		}
@@ -81,7 +85,7 @@
 	
 	<div id="wrap" class="container">
 		<!-- INPUT -->		
-		<div class="row centered">
+		<div class="row centered text_row">
 			<div class="col-lg-8 col-centered">
 				<div class="row centered">
 					<h3>Word Counter</h3>
@@ -109,7 +113,9 @@
 		<!-- RESULTS -->
 		<div class="row centered chart_row">
 			<div class="col-lg-8 col-centered">
-				<div id="frequency_chart"></div>
+				<div class="row centered">
+					<div id="frequency_chart"></div>
+				</div>
 			</div>
 		</div>
 		<!-- RESULTS END -->		
@@ -135,14 +141,15 @@
 			$('#count').on('click',function(){
 				$('#frequency_chart').show();
 				var lookup_table = new Object(); // Our dictionary: word => word_count
-				var text_raw = document.getElementById('input_text').value;
+				var text_raw = document.getElementById('input_text').value; // Get the input text
+				if(text_raw == ""){ alert("You have not entered any text"); return; } // Handle case when user fails to enter text
 				var text_trimmed = text_raw.trim(); // Remove redundant whitespace
 				var word_array = text_trimmed.split(" "); // Our array of words
 				var array_length = word_array.length;
 
 				// Place the count of each word in the Object lookup_table
 				for(var i = 0; i < array_length; ++i){
-					var clean_string = word_array[i].replace(/(^[\(\"\']+|[\,\.!?\)\'\"]+$)/g,''); // remove any leading or trailing punctuation
+					var clean_string = word_array[i].replace(/(^[\(\"\']+|[\,\.!?\)\'\"]+$)/g,''); // Remove any leading or trailing punctuation
 					if(clean_string in lookup_table){
 					// if the word is already in our dictionary, increment it's value by one
 						lookup_table[clean_string] += 1; 
@@ -176,6 +183,7 @@
 
 			      data.addRows(top_ten);
 
+			      // Style the chart
 			      var options = {
 			        width: 800,
 			        height: 563,
