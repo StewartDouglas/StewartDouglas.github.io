@@ -138,6 +138,7 @@
 
 		<!-- STEWART'S SCRIPT -->
 		<script>
+			// Triggered when the user presses the 'Count' button
 			$('#count').on('click',function(){
 				var lookup_table = new Object(); // Our dictionary: word => word_count
 				var text_raw = document.getElementById('input_text').value; // Get the input text
@@ -151,10 +152,10 @@
 				for(var i = 0; i < array_length; ++i){
 					var clean_string = word_array[i].replace(/(^[\(\"\']+|[\,\.!?\)\'\"]+$)/g,''); // Remove any leading or trailing punctuation
 					if(clean_string in lookup_table){
-					// if the word is already in our dictionary, increment it's value by one
+					// If the word is already in our dictionary, increment it's value by one
 						lookup_table[clean_string] += 1; 
 					} else {
-					// if the word is not in our dictionary, add it with an initial value of one
+					// If the word is not in our dictionary, add it with an initial value of one
 						lookup_table[clean_string] = 1;
 					}
 				};
