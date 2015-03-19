@@ -152,10 +152,10 @@
 				for(var i = 0; i < array_length; ++i){
 					var clean_string = word_array[i].replace(/(^[\(\"\']+|[\,\.!?\)\'\"]+$)/g,''); // Remove any leading or trailing punctuation
 					var new_string = clean_string[0].toUpperCase() + clean_string.substr(1); // Format every word to begin with a capital letter
-					if(new_string in lookup_table){
+					if(new_string in lookup_table && !is_punctuation(new_string)){
 					// If the word is already in our dictionary, increment it's value by one
 						lookup_table[new_string] += 1; 
-					} else {
+					} else if (!is_punctuation(new_string)) {
 					// If the word is not in our dictionary, add it with an initial value of one
 						lookup_table[new_string] = 1;
 					}
@@ -211,6 +211,12 @@
 			    })();
       
 			});
+
+		// Helper function for detecting certain types of puntucation
+		function is_punctuation(text){
+			return (text == "-" || text == "&")
+		}
+
 		</script>
 		<!-- STEWART'S SCRIPT END-->		
 	<!--SCRIPTS END-->
