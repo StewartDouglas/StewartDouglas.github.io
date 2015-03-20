@@ -147,18 +147,29 @@
 				var word_array = text_trimmed.split(/\s+/); // Our array of words
 				var array_length = word_array.length;
 				$('#frequency_chart').show();
-
+				
 				// Place the count of each word in the Object lookup_table
 				for(var i = 0; i < array_length; ++i){
-					var clean_string = word_array[i].replace(/(^[\(\"\']+|[\,\.!?\)\'\"]+$)/g,''); // Remove any leading or trailing punctuation
-					var new_string = clean_string[0].toUpperCase() + clean_string.substr(1); // Format every word to begin with a capital letter
-					if(new_string in lookup_table && !is_punctuation(new_string)){
-					// If the word is already in our dictionary, increment it's value by one
-						lookup_table[new_string] += 1; 
-					} else if (!is_punctuation(new_string)) {
-					// If the word is not in our dictionary, add it with an initial value of one
-						lookup_table[new_string] = 1;
-					}
+					//var clean_string = word_array[i].replace(/(^[\/\(\"\' \[\&\*\-]+|[\,\.!?\)\'\" \;\:\]\/\&\*\-]+$)/g,''); // Remove any leading or trailing punctuation
+					var clean_string = word_array[i].replace(/(^[^A-Za-z]+|[^A-Za-z]+$)/g,''); // Remove any non-English language characters from beginning or end
+
+					// Check we are not dealing with the empty string (which could be case if original word_array[i] element was, say, "&")	
+					if (clean_string != "") {
+						// If our string begins with an English alphabet letter, change it to upper case
+						if(clean_string[0].match(/[A-Za-z]/)){
+							var new_string = clean_string[0].toUpperCase() + clean_string.substr(1); // Format every word to begin with a capital letter
+						} else {
+							new_stirng = clean_string;
+						}
+						
+						if(new_string in lookup_table){ 
+						// If the word is already in our dictionary, increment it's value by one
+							lookup_table[new_string] += 1; 
+						} else { 
+						// If the word is not in our dictionary, add it with an initial value of one
+							lookup_table[new_string] = 1;
+						}
+					} 
 				};
 
 				// Convert our dictionary into an array of arrays [ [word1, count1], [...], ... ]
@@ -211,11 +222,6 @@
 			    })();
       
 			});
-
-		// Helper function for detecting certain types of puntucation
-		function is_punctuation(text){
-			return (text == "-" || text == "&")
-		}
 
 		</script>
 		<!-- STEWART'S SCRIPT END-->		
