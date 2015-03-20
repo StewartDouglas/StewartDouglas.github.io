@@ -138,6 +138,7 @@
 
 		<!-- STEWART'S SCRIPT -->
 		<script>
+
 			// Triggered when the user presses the 'Count' button
 			$('#count').on('click',function(){
 				var lookup_table = new Object(); // Our dictionary: word => word_count
@@ -147,10 +148,10 @@
 				var word_array = text_trimmed.split(/\s+/); // Our array of words
 				var array_length = word_array.length;
 				$('#frequency_chart').show();
-				
+
 				// Place the count of each word in the Object lookup_table
 				for(var i = 0; i < array_length; ++i){
-					//var clean_string = word_array[i].replace(/(^[\/\(\"\' \[\&\*\-]+|[\,\.!?\)\'\" \;\:\]\/\&\*\-]+$)/g,''); // Remove any leading or trailing punctuation
+					// var clean_string = word_array[i].replace(/(^[\/\(\"\' \[\&\*\-]+|[\,\.!?\)\'\" \;\:\]\/\&\*\-]+$)/g,''); // Remove any leading or trailing punctuation --> Use if dealing with non-English language texts
 					var clean_string = word_array[i].replace(/(^[^A-Za-z]+|[^A-Za-z]+$)/g,''); // Remove any non-English language characters from beginning or end
 
 					// Check we are not dealing with the empty string (which could be case if original word_array[i] element was, say, "&")	
@@ -220,7 +221,6 @@
 			        document.getElementById('frequency_chart'));
 			      	chart.draw(data, options);
 			    })();
-      
 			});
 
 		</script>
